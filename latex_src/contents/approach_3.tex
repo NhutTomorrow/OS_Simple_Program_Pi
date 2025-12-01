@@ -1,6 +1,6 @@
-\section{Approach 3: Shares Variables}
+\section{Approach 3: Shared Variables}
 \subsection{Mục tiêu}
-Ở 2 cách trước là \textbf{Approach 1: Separate Variables} và \textbf{Approach 2: Shared Variables}, chúng ta đã tìm hiểu về cách sử dụng các biến riêng biệt và chia sẻ biến trong các mô hình học máy. Trong phần này, chúng ta sẽ khám phá cách tiếp cận thứ ba, đó là \textbf{Shares Variables} đều sử dụng biến cục bộ để đếm số điểm rơi vào hình tròn rồi cộng dồn vào tổng khi kết thúc.
+Ở 2 cách trước là \textbf{Approach 1: Single-Thread} và \textbf{Approach 2: Multi-Thread với biến cục bộ}, chúng ta đã tìm hiểu về cách sử dụng biến cục bộ để đếm số điểm rơi vào hình tròn rồi cộng dồn vào tổng khi kết thúc. Trong phần này, chúng ta sẽ khám phá cách tiếp cận thứ ba, đó là \textbf{Shared Variables}, trong đó các luồng cập nhật trực tiếp một biến toàn cục dùng chung.
 
 Trong cách 3 yêu cầu:
 \begin{itemize}
@@ -60,8 +60,8 @@ Như vậy, tại mọi thời điểm chỉ có một luồng được phép v�
 
 Một nhược điểm của cách tiếp cận 3 là:
 \begin{itemize}
-    \item Mỗi lần có điểm rời vào hình tròn, luồng phải thực hiện thao tác lock and unlock mutex
-    \item Với số điểm lớn lên đến \(10^{7}, 10^{8}, 10^{9}\) và nhiều luồng =, thì việc lock/ unlock rất lớn dẫn đến overhead nặng nề
+    \item Mỗi lần có điểm rơi vào hình tròn, luồng phải thực hiện thao tác lock và unlock mutex
+    \item Với số điểm lớn lên đến \(10^{7}, 10^{8}, 10^{9}\) và nhiều luồng, việc lock/unlock liên tục dẫn đến overhead nặng nề
 \end{itemize}
 
 Để \textbf{giảm overhead} mà vẫn giữ ý tưởng sử dụng biến chia sẻ \verb|global_count|, có thể đề xuất giải pháp:
