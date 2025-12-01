@@ -1,0 +1,27 @@
+\subsubsection{Điều chỉnh cơ chế sinh số ngẫu nhiên để tăng độ chính xác}
+
+Trong bài toán Monte Carlo, chất lượng và cách sử dụng số ngẫu nhiên ảnh hưởng trực tiếp đến:
+\begin{itemize}
+    \item Độ \textbf{ổn định} của kết quả giữa các lần chạy.
+    \item Độ \textbf{chính xác} của giá trị xấp xỉ $\pi$ khi số điểm \verb|nPoints| tăng lên.
+\end{itemize}
+
+
+
+Sử dụng seed cố định và phụ thuộc vào chỉ số toàn cục
+
+Thay vì khởi tạo seed từ thời gian hệ thống (\verb|time(NULL)|), nhóm sử dụng một \emph{seed gốc} cố định \verb|base_seed| và xây dựng seed cho từng điểm dựa trên chỉ số toàn cục $i$:
+\begin{verbatim}
+unsigned int seed = base_seed + (unsigned int)i;
+\end{verbatim}
+
+Nhờ đó:
+\begin{itemize}
+    \item Với mỗi điểm sẽ có 1 seed duy nhất, giúp phân tán tốt hơn các điểm ngẫu nhiên.
+    \item Với cùng giá trị \verb|nPoints|, mỗi chỉ số $i$ luôn tạo ra cùng một cặp $(x, y)$, không phụ thuộc vào số luồng hay cách phân chia công việc.
+    \item Tập các điểm ngẫu nhiên được sinh ra trong phiên bản đơn luồng và đa luồng là như nhau (chỉ khác cách phân chia giữa các luồng).
+    \item Chạy lại chương trình nhiều lần với cùng cấu hình luôn cho cùng một kết quả xấp xỉ $\pi$, giúp việc so sánh, đo \textit{speedup} và phân tích trở nên đáng tin cậy hơn.
+\end{itemize}
+
+
+Nhờ việc ``làm mềm'' cơ chế ngẫu nhiên theo hướng \emph{deterministic nhưng vẫn đủ phân tán}, nhóm vừa đảm bảo được tính ngẫu nhiên cho thuật toán Monte Carlo, vừa đảm bảo được tính lặp lại và độ chính xác cao cho kết quả thực nghiệm.
