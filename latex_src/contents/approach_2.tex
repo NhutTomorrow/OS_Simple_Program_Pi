@@ -1,1 +1,158 @@
 
+\section{Approach 2: A Multi-Thread Program}
+
+\subsection{Mục tiêu}
+
+Ở \textbf{Approach 1: Single-Thread}, chúng ta đã xây dựng chương trình đơn luồng để ước lượng giá trị $\pi$ bằng phương pháp Monte Carlo. Tuy nhiên, với số điểm lớn (ví dụ: $10^7, 10^8, 10^9$), thời gian tính toán trở nên rất lâu do tất cả công việc được thực hiện tuần tự trên một luồng duy nhất.
+
+Trong \textbf{Approach 2}, chúng ta áp dụng kỹ thuật \textbf{đa luồng (multi-threading)} để:
+\begin{itemize}
+    \item Chia nhỏ công việc thành nhiều phần và gán cho các luồng chạy song song.
+    \item Mỗi luồng xử lý một phần số điểm, đếm số điểm rơi vào hình tròn trên \textbf{biến cục bộ riêng}.
+    \item Sau khi tất cả luồng hoàn thành, tổng hợp kết quả từ các luồng để tính giá trị $\pi$.
+    \item Đo lường \textbf{speedup} so với Approach 1 với nhiều lựa chọn số luồng (từ 2 đến 100 hoặc 1000 luồng).
+\end{itemize}
+
+\subsection{Thuật toán}
+
+Trong phiên bản đa luồng với biến cục bộ:
+
+\begin{itemize}
+    \item Chương trình tạo \verb|nThreads| luồng.
+    \item Mỗi luồng được gán một đoạn chỉ số điểm $[start\_idx, start\_idx + num\_points)$ không trùng nhau:
+    \begin{itemize}
+        \item Số điểm mỗi luồng xử lý:
+        \[
+            \texttt{points\_per\_thread} = \left\lfloor \frac{\texttt{nPoints}}{\texttt{nThreads}} \right\rfloor
+        \]
+        
+        \item Số điểm dư:
+        \[
+            \texttt{remaining} = \texttt{nPoints} \bmod \texttt{nThreads}
+        \]
+        
+        \item Các luồng đầu tiên sẽ nhận thêm 1 điểm từ phần dư:
+        \[
+            \texttt{num\_points}_i = 
+            \begin{cases}
+                \texttt{points\_per\_thread} + 1 & \text{nếu } i < \texttt{remaining}, \\[6pt]
+                \texttt{points\_per\_thread} & \text{ngược lại}.
+            \end{cases}
+        \]
+        
+        \item Chỉ số bắt đầu của mỗi luồng:
+        \[
+            \texttt{start\_idx}_i = \sum_{j=0}^{i-1} \texttt{num\_points}_j
+        \]
+    \end{itemize}
+    
+    \item Mỗi luồng sử dụng \textbf{biến đếm cục bộ} \verb|points_in_circle| để đếm số điểm rơi vào hình tròn.
+    
+    \item Mỗi điểm được sinh dựa trên một seed phụ thuộc vào chỉ số toàn cục:
+    \[
+        \texttt{seed} = \texttt{base\_seed} + \texttt{start\_idx} + i
+    \]
+    
+    \item Sau khi tất cả luồng hoàn thành, luồng chính tổng hợp kết quả:
+    \[
+        \texttt{total\_in\_circle} = \sum_{i=0}^{\texttt{nThreads}-1} \texttt{points\_in\_circle}_i
+    \]
+    
+    \item Giá trị $\pi$ được ước lượng:
+    \[
+        \pi \approx 4 \cdot \frac{\texttt{total\_in\_circle}}{\texttt{nPoints}}
+    \]
+\end{itemize}
+
+\subsection{Cấu trúc dữ liệu}
+
+Mỗi luồng nhận một cấu trúc dữ liệu chứa thông tin cần thiết:
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+    \begin{lstlisting}[language=C, basicstyle=\ttfamily\small, commentstyle=\itshape\color{green!60!black}, breaklines=true, columns=flexible]
+typedef struct {
+    long long start_idx;        // Chi so diem bat dau
+    long long num_points;       // So diem can xu ly
+    unsigned int base_seed;     // Seed co so
+    long long points_in_circle; // Ket qua
+} thread_data_t;
+    \end{lstlisting}
+\end{tcolorbox}
+
+\subsection{Hàm worker của mỗi luồng}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+    \begin{lstlisting}[language=C, basicstyle=\ttfamily\small, breaklines=true, columns=flexible]
+void *monte_carlo_worker(void *arg) {
+    thread_data_t *data = (thread_data_t *)arg;
+    long long count = 0;
+    
+    for (long long i = 0; i < data->num_points; i++) {
+        unsigned int seed = data->base_seed 
+                          + data->start_idx + i;
+        double x = rand_double(&seed, -1.0, 1.0);
+        double y = rand_double(&seed, -1.0, 1.0);
+        if (x * x + y * y <= 1.0) count++;
+    }
+    
+    data->points_in_circle = count;
+    return NULL;
+}
+    \end{lstlisting}
+\end{tcolorbox}
+
+\subsection{Ưu điểm của Approach 2}
+
+\subsubsection{Không cần cơ chế đồng bộ (mutex)}
+
+Đây là ưu điểm lớn nhất của Approach 2:
+\begin{itemize}
+    \item Mỗi luồng chỉ ghi vào biến cục bộ riêng của mình (\verb|points_in_circle|), được lưu trong cấu trúc \verb|thread_data_t| độc lập.
+    \item Không có tranh chấp tài nguyên (\textit{race condition}) vì các luồng không truy cập cùng một vùng nhớ trong quá trình tính toán.
+    \item Loại bỏ hoàn toàn chi phí của việc lock/unlock mutex trong vòng lặp chính.
+    \item Việc tổng hợp kết quả chỉ diễn ra một lần duy nhất sau khi tất cả luồng hoàn thành, thông qua \verb|pthread_join|.
+\end{itemize}
+
+\pagebreak 
+\subsubsection{Hiệu năng cao và khả năng mở rộng tốt}
+
+\begin{itemize}
+    \item Tính toán song song thực sự: Các luồng chạy hoàn toàn độc lập, không phụ thuộc lẫn nhau, không chờ đợi tài nguyên chia sẻ.
+    
+    \item Overhead thấp: Không có chi phí đồng bộ liên tục trong vòng lặp. Chi phí duy nhất là:
+    \begin{itemize}
+        \item Khởi tạo và hủy luồng (\verb|pthread_create|, \verb|pthread_join|)
+        \item Context switching giữa các luồng (do hệ điều hành quản lý)
+    \end{itemize}
+    
+    \item Khả năng mở rộng tuyến tính: Với số nhân CPU là $P$, speedup lý tưởng có thể đạt gần $P$ lần.
+    
+\subsubsection{Đơn giản và dễ bảo trì}
+
+\begin{itemize}
+    \item Logic rõ ràng: Quy trình gồm 3 bước đơn giản:
+    \begin{enumerate}
+        \item Chia công việc: Phân chia $N$ điểm cho $T$ luồng
+        \item Tính toán song song: Mỗi luồng xử lý phần của mình độc lập
+        \item Tổng hợp kết quả: Cộng dồn các kết quả cục bộ
+    \end{enumerate}
+    
+    \item Dễ debug: Không có vấn đề về race condition hay deadlock, các lỗi thường liên quan đến logic phân chia công việc.
+    
+    \item Dễ mở rộng: Có thể dễ dàng thay đổi số luồng mà không cần sửa đổi logic chính.
+    
+    \item Mô hình phổ biến: Đây là mô hình "divide and conquer" song song (parallel reduction), được sử dụng rộng rãi trong lập trình song song.
+\end{itemize}
+
+\subsubsection{Tận dụng tối đa phần cứng}
+
+\begin{itemize}
+    \item CPU-bound workload: Monte Carlo là bài toán thuần tính toán, không có I/O, rất phù hợp với đa luồng.
+    
+    \item Cache-friendly: Mỗi luồng làm việc với dữ liệu riêng, giảm thiểu cache invalidation và false sharing.
+    
+    \item Load balancing tự động: Nếu phân chia công việc đều, mọi luồng hoàn thành gần cùng lúc, tận dụng tối đa tài nguyên CPU.
+\end{itemize}
+
+\pagebreak
+

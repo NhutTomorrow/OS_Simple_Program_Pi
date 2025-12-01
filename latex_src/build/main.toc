@@ -1,1 +1,18 @@
 \babel@toc {vietnamese}{}\relax 
+\contentsline {section}{\numberline {1}Approach 1: A Single-Thread program}{4}{section.1}%
+\contentsline {section}{\numberline {2}Approach 2: A Multi-Thread Program}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Mục tiêu}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Thuật toán}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Cấu trúc dữ liệu}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Hàm worker của mỗi luồng}{7}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Ưu điểm của Approach 2}{7}{subsection.2.5}%
+\contentsline {subsubsection}{\numberline {2.5.1}Không cần cơ chế đồng bộ (mutex)}{7}{subsubsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.2}Hiệu năng cao và khả năng mở rộng tốt}{8}{subsubsection.2.5.2}%
+\contentsline {subsubsection}{\numberline {2.5.3}Đơn giản và dễ bảo trì}{8}{subsubsection.2.5.3}%
+\contentsline {subsubsection}{\numberline {2.5.4}Tận dụng tối đa phần cứng}{8}{subsubsection.2.5.4}%
+\contentsline {section}{\numberline {3}Approach 3: Shares Variables}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Mục tiêu}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Thuật toán}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Tránh race condition bằng mutex}{10}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Đề xuất giải pháp}{10}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Điều chỉnh cơ chế sinh số ngẫu nhiên để tăng độ chính xác}{12}{subsubsection.3.4.1}%

@@ -1,0 +1,205 @@
+\section{Approach 2: A Multi-Thread Program}
+
+\subsection{Mục tiêu}
+
+Ở \textbf{Approach 1: Single-Thread}, chúng ta đã xây dựng chương trình đơn luồng để ước lượng giá trị $\pi$ bằng phương pháp Monte Carlo. Tuy nhiên, với số điểm lớn (ví dụ: $10^7, 10^8, 10^9$), thời gian tính toán trở nên rất lâu do tất cả công việc được thực hiện tuần tự trên một luồng duy nhất.
+
+Trong \textbf{Approach 2}, chúng ta áp dụng kỹ thuật \textbf{đa luồng (multi-threading)} để:
+\begin{itemize}
+    \item Chia nhỏ công việc thành nhiều phần và gán cho các luồng chạy song song.
+    \item Mỗi luồng xử lý một phần số điểm, đếm số điểm rơi vào hình tròn trên \textbf{biến cục bộ riêng}.
+    \item Sau khi tất cả luồng hoàn thành, tổng hợp kết quả từ các luồng để tính giá trị $\pi$.
+    \item Đo lường \textbf{speedup} so với Approach 1 với nhiều lựa chọn số luồng (từ 2 đến 100 hoặc 1000 luồng).
+\end{itemize}
+
+\subsection{Thuật toán}
+
+Trong phiên bản đa luồng với biến cục bộ:
+
+\begin{itemize}
+    \item Chương trình tạo \verb|nThreads| luồng.
+    \item Mỗi luồng được gán một đoạn chỉ số điểm $[start\_idx, start\_idx + num\_points)$ không trùng nhau:
+    \begin{itemize}
+        \item Số điểm mỗi luồng xử lý:
+        \[
+            \texttt{points\_per\_thread} = \left\lfloor \frac{\texttt{nPoints}}{\texttt{nThreads}} \right\rfloor
+        \]
+        
+        \item Số điểm dư:
+        \[
+            \texttt{remaining} = \texttt{nPoints} \bmod \texttt{nThreads}
+        \]
+        
+        \item Các luồng đầu tiên sẽ nhận thêm 1 điểm từ phần dư:
+        \[
+            \texttt{num\_points}_i = 
+            \begin{cases}
+                \texttt{points\_per\_thread} + 1 & \text{nếu } i < \texttt{remaining}, \\[6pt]
+                \texttt{points\_per\_thread} & \text{ngược lại}.
+            \end{cases}
+        \]
+        
+        \item Chỉ số bắt đầu của mỗi luồng:
+        \[
+            \texttt{start\_idx}_i = \sum_{j=0}^{i-1} \texttt{num\_points}_j
+        \]
+    \end{itemize}
+    
+    \item Mỗi luồng sử dụng \textbf{biến đếm cục bộ} \verb|points_in_circle| để đếm số điểm rơi vào hình tròn.
+    
+    \item Mỗi điểm được sinh dựa trên một seed phụ thuộc vào chỉ số toàn cục:
+    \[
+        \texttt{seed} = \texttt{base\_seed} + \texttt{start\_idx} + i
+    \]
+    
+    \item Sau khi tất cả luồng hoàn thành, luồng chính tổng hợp kết quả:
+    \[
+        \texttt{total\_in\_circle} = \sum_{i=0}^{\texttt{nThreads}-1} \texttt{points\_in\_circle}_i
+    \]
+    
+    \item Giá trị $\pi$ được ước lượng:
+    \[
+        \pi \approx 4 \cdot \frac{\texttt{total\_in\_circle}}{\texttt{nPoints}}
+    \]
+\end{itemize}
+
+\subsection{Cấu trúc dữ liệu}
+
+Mỗi luồng nhận một cấu trúc dữ liệu chứa thông tin cần thiết:
+
+\begin{verbatim}
+typedef struct {
+    long long start_idx;          // Chỉ số điểm bắt đầu
+    long long num_points;          // Số điểm cần xử lý
+    unsigned int base_seed;        // Seed cơ sở
+    long long points_in_circle;    // Kết quả: số điểm trong hình tròn
+} thread_data_t;
+\end{verbatim}
+
+\subsection{Hàm worker của mỗi luồng}
+
+\begin{verbatim}
+void *monte_carlo_worker(void *arg) {
+    thread_data_t *data = (thread_data_t *)arg;
+    long long count = 0;
+    
+    for (long long i = 0; i < data->num_points; i++) {
+        unsigned int seed = data->base_seed + data->start_idx + i;
+        double x = rand_double(&seed, -1.0, 1.0);
+        double y = rand_double(&seed, -1.0, 1.0);
+        if (x * x + y * y <= 1.0) count++;
+    }
+    
+    data->points_in_circle = count;
+    return NULL;
+}
+\end{verbatim}
+
+\subsection{Ưu điểm của Approach 2}
+
+\begin{itemize}
+    \item \textbf{Không cần mutex}: Mỗi luồng chỉ ghi vào biến cục bộ riêng của mình (\verb|points_in_circle|), không có tranh chấp tài nguyên (\textit{race condition}).
+    
+    \item \textbf{Hiệu năng cao}: Do không có overhead từ việc lock/unlock mutex, các luồng chạy hoàn toàn độc lập và song song.
+    
+    \item \textbf{Khả năng mở rộng tốt}: Khi tăng số luồng, hiệu năng cải thiện tuyến tính (trong giới hạn số nhân CPU vật lý).
+    
+    \item \textbf{Đơn giản và dễ hiểu}: Logic rõ ràng - chia công việc, tính toán song song, tổng hợp kết quả.
+\end{itemize}
+
+\subsection{So sánh với Approach 1}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Tiêu chí} & \textbf{Approach 1} & \textbf{Approach 2} \\
+\hline
+Số luồng & 1 (single-thread) & N (multi-thread) \\
+\hline
+Biến đếm & Biến cục bộ duy nhất & Biến cục bộ cho mỗi luồng \\
+\hline
+Đồng bộ & Không cần & Không cần \\
+\hline
+Overhead & Không có & Overhead tạo/hủy luồng \\
+\hline
+Tốc độ & Chậm với số điểm lớn & Nhanh hơn nhiều lần \\
+\hline
+Khả năng mở rộng & Không & Có (tuyến tính) \\
+\hline
+\end{tabular}
+\caption{So sánh Approach 1 và Approach 2}
+\end{table}
+
+\subsection{Đo lường Speedup}
+
+Speedup được định nghĩa là tỷ số giữa thời gian thực thi của phiên bản đơn luồng (Approach 1) và thời gian thực thi của phiên bản đa luồng (Approach 2):
+
+\[
+    \texttt{Speedup}(N) = \frac{T_{\text{single}}}{T_{\text{multi}}(N)}
+\]
+
+Trong đó:
+\begin{itemize}
+    \item $T_{\text{single}}$: Thời gian chạy của Approach 1 (baseline)
+    \item $T_{\text{multi}}(N)$: Thời gian chạy của Approach 2 với $N$ luồng
+    \item $N$: Số luồng (từ 2 đến 100 hoặc 1000)
+\end{itemize}
+
+\textbf{Ý nghĩa}:
+\begin{itemize}
+    \item Nếu $\texttt{Speedup}(N) = N$ $\Rightarrow$ Tăng tốc lý tưởng (linear speedup)
+    \item Nếu $\texttt{Speedup}(N) < N$ $\Rightarrow$ Có overhead từ quản lý luồng, tranh chấp tài nguyên
+    \item Nếu $\texttt{Speedup}(N) > N$ $\Rightarrow$ Hiếm gặp, có thể do cache locality
+\end{itemize}
+
+\subsection{Kết quả thực nghiệm}
+
+Chương trình benchmark sẽ đo thời gian thực thi với:
+\begin{itemize}
+    \item Số điểm cố định: $nPoints = 10^9$ (1 tỷ điểm)
+    \item Số luồng thay đổi: $N = 2, 3, 4, \ldots, 100$
+    \item Seed cố định: $seed = 123456$ để đảm bảo tính nhất quán
+\end{itemize}
+
+\textbf{Dự đoán kết quả}:
+\begin{itemize}
+    \item Speedup tăng dần khi tăng số luồng từ 2 đến số nhân CPU vật lý
+    \item Sau điểm bão hòa (số nhân CPU), speedup tăng chậm lại hoặc không tăng nữa
+    \item Có thể giảm nhẹ nếu số luồng quá lớn do overhead context switching
+\end{itemize}
+
+\subsection{Giải thích kết quả}
+
+\textbf{Tại sao Approach 2 nhanh hơn Approach 1?}
+\begin{itemize}
+    \item \textbf{Tính toán song song}: Nhiều luồng thực thi đồng thời trên các nhân CPU khác nhau, giảm thời gian tổng thể.
+    \item \textbf{Không có bottleneck}: Mỗi luồng độc lập, không chờ đợi lẫn nhau.
+\end{itemize}
+
+\textbf{Giới hạn của Approach 2:}
+\begin{itemize}
+    \item \textbf{Giới hạn phần cứng}: Speedup bị giới hạn bởi số nhân CPU vật lý. Ví dụ: CPU 8 nhân không thể đạt speedup > 8x (thực tế thường 6-7x do overhead).
+    
+    \item \textbf{Overhead tạo luồng}: Với số luồng quá lớn (> 100), chi phí tạo, lập lịch và hủy luồng làm giảm hiệu quả.
+    
+    \item \textbf{Context switching}: Khi số luồng >> số nhân CPU, hệ điều hành phải liên tục chuyển đổi ngữ cảnh, tốn thời gian.
+    
+    \item \textbf{Cache coherence}: Nhiều luồng truy cập bộ nhớ có thể gây mất hiệu quả cache.
+\end{itemize}
+
+\subsection{Kết luận}
+
+Approach 2 mang lại cải thiện hiệu năng đáng kể so với Approach 1 nhờ:
+\begin{itemize}
+    \item Khai thác tính song song của phần cứng
+    \item Thiết kế đơn giản với biến cục bộ, không cần đồng bộ
+    \item Khả năng mở rộng tốt trong giới hạn số nhân CPU
+\end{itemize}
+
+Tuy nhiên, cần lưu ý:
+\begin{itemize}
+    \item Số luồng tối ưu thường gần bằng số nhân CPU vật lý
+    \item Sau điểm bão hòa, tăng thêm luồng không mang lại lợi ích đáng kể
+    \item Cần benchmark để tìm số luồng tối ưu cho từng hệ thống cụ thể
+\end{itemize}

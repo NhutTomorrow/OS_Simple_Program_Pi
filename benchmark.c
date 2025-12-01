@@ -167,8 +167,8 @@ void run_benchmark(long long npoints, unsigned int seed) {
     printf("\n════════════════════════════════════════════════════════════════\n");
     printf("APPROACH 3: SHARED VARIABLE\n");
     printf("════════════════════════════════════════════════════════════════\n");
-    printf("%-8s | %-14s | %-12s | %-10s\n",
-           "Threads", "Pi", "Time (s)", "Speedup(A2->A3)");
+    printf("%-8s | %-14s | %-12s | %-12s | %-12s\n",
+           "Threads", "Pi", "Time (s)", "Speedup(A1)", "Speedup(A2)");
     printf("────────────────────────────────────────────────────────────────\n");
 
     for (int nt = 2; nt <= 100; nt++) {
@@ -179,10 +179,11 @@ void run_benchmark(long long npoints, unsigned int seed) {
         double elapsed = (t1.tv_sec - t0.tv_sec) +
                          (t1.tv_nsec - t0.tv_nsec) / 1e9;
 
-        double speedup = time_appr2[nt] / elapsed;
+        double speedup_vs_baseline = baseline / elapsed;
+        double speedup_vs_appr2 = time_appr2[nt] / elapsed;
 
-        printf("%-8d | %14.10f | %12.6f | %10.2fx\n",
-               nt, pi3, elapsed, speedup);
+        printf("%-8d | %14.10f | %12.6f | %12.2fx | %12.2fx\n",
+               nt, pi3, elapsed, speedup_vs_baseline, speedup_vs_appr2);
     }
 
     printf("════════════════════════════════════════════════════════════════\n");
@@ -190,8 +191,8 @@ void run_benchmark(long long npoints, unsigned int seed) {
 
 // ==================== Main ====================
 int main(int argc, char *argv[]) {
-    long long npoints = 100000000;  // 100M points
-    unsigned int seed = 123456;
+    long long npoints = 1000000000;  // Fix points num here
+    unsigned int seed = 123456;      // Fix seed here
     
     if (argc > 1) npoints = atoll(argv[1]);
     if (argc > 2) seed = atoi(argv[2]);
