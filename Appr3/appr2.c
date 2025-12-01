@@ -40,7 +40,7 @@ int main() {
     clock_t start_single = clock();
     long count_single = 0;
     for (long idx = 0; idx < total_points; idx++) {
-        // unsigned int seed = base_seed + idx;
+        
         unsigned int seed = 123456;
         double x = rand_double(&seed, -1.0, 1.0);
         double y = rand_double(&seed, -1.0, 1.0);
@@ -51,9 +51,9 @@ int main() {
     double time_single = (double)(end_single - start_single)/CLOCKS_PER_SEC;
 
     // Multi-thread từ 2 → 100
-    for (long num_threads = 1; num_threads <= 100; num_threads++) {
-        pthread_t *threads = malloc(num_threads * sizeof(pthread_t));
-        thread_data_t *thread_data = malloc(num_threads * sizeof(thread_data_t));
+    for (long num_threads = 1; num_threads <= 10; num_threads++) {
+        pthread_t *threads = (pthread_t*)malloc(num_threads * sizeof(pthread_t));
+        thread_data_t *thread_data = (thread_data_t*)malloc(num_threads * sizeof(thread_data_t));
         if (!threads || !thread_data) {
             printf("Error: Không thể cấp phát bộ nhớ\n");
             free(threads); free(thread_data);
