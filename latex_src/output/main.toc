@@ -1,0 +1,2 @@
+\babel@toc {vietnamese}{}\relax 
+\contentsline {section}{\numberline {1}Approach 1: A Single-Thread program}{4}{section.1}%
