@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.7.25)  1 DEC 2025 10:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.7.25)  1 DEC 2025 10:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -849,7 +849,8 @@ File: t5utm.fd 2005/08/24 Fontinst v1.929 font definitions for T5/ptm.
 ) (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count344
-) (output/main.aux)
+)
+No file main.aux.
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
@@ -878,7 +879,7 @@ Package hyperref Info: Link coloring ON on input line 19.
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
- (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count345
 \scratchdimen=\dimen302
@@ -1001,42 +1002,47 @@ LaTeX Font Info:    Font shape `T5/cmtt/bx/n' in size <12> not available
 
  (./contents/approach_1.tex
 
-./contents/approach_1.tex:2: LaTeX Error: Environment tcolorbox undefined.
+./contents/approach_1.tex:1: LaTeX Error: Can be used only in preamble.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.2 \begin{tcolorbox}
+l.1 \usepackage
+               {tcolorbox}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+./contents/approach_1.tex:3: LaTeX Error: Environment tcolorbox undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 \begin{tcolorbox}
                      {gray!20!white}
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-./contents/approach_1.tex:3: LaTeX Error: Environment lstlisting undefined.
+./contents/approach_1.tex:4: LaTeX Error: Environment lstlisting undefined.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.3     \begin{lstlisting}
+l.4     \begin{lstlisting}
                           [language=C, caption=Single-Threaded Pi Calculation]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-./contents/approach_1.tex:4: You can't use `macro parameter character #' in horizontal mode.
-l.4         #
-             include <stdio.h>
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
 ./contents/approach_1.tex:5: You can't use `macro parameter character #' in horizontal mode.
-l.5 #
-     include <stdlib.h>
+l.5         #
+             include <stdio.h>
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
 If you're in the wrong mode, you might be able to
@@ -1044,7 +1050,7 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 
 ./contents/approach_1.tex:6: You can't use `macro parameter character #' in horizontal mode.
 l.6 #
-     include <time.h>
+     include <stdlib.h>
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
 If you're in the wrong mode, you might be able to
@@ -1052,40 +1058,48 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 
 ./contents/approach_1.tex:7: You can't use `macro parameter character #' in horizontal mode.
 l.7 #
+     include <time.h>
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./contents/approach_1.tex:8: You can't use `macro parameter character #' in horizontal mode.
+l.8 #
      include <math.h>
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
 If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
-./contents/approach_1.tex:10: Missing $ inserted.
+./contents/approach_1.tex:11: Missing $ inserted.
 <inserted text> 
                 $
-l.10 double rand_
+l.11 double rand_
                  double(unsigned int *seed, double a, double b) {
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./contents/approach_1.tex:24: Missing $ inserted.
+./contents/approach_1.tex:25: Missing $ inserted.
 <inserted text> 
                 $
-l.24 
+l.25 
      
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (579.83836pt too wide) in paragraph at lines 10--24
+Overfull \hbox (579.83836pt too wide) in paragraph at lines 11--25
 []\T5/ptm/m/n/12 double rand$[]\OML/ztmcm/m/it/12 ouble\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 unsignedint \OMS/ztmcm/m/n/12 ^^C \OML/ztmcm/m/it/12 seed; doublea; doubleb\OT1/ztmcm/m/n/12 )[]\OML/ztmcm/m/it/12 unsignedlonglongintcount[]oint[]nside\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 unsignedlonglongintn[]oint; unsignedchar \OMS/ztmcm/m/n/12 ^^C
  []
 
 
-Overfull \hbox (513.30815pt too wide) in paragraph at lines 10--24
+Overfull \hbox (513.30815pt too wide) in paragraph at lines 11--25
 \OML/ztmcm/m/it/12 img\OT1/ztmcm/m/n/12 ); \OML/ztmcm/m/it/12 voidfill[]ackground\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 unsignedchar \OMS/ztmcm/m/n/12 ^^C \OML/ztmcm/m/it/12 img; intW; intH; unsignedcharr; unsignedcharg; unsignedcharb\OT1/ztmcm/m/n/12 )[]$ 
  []
 
-./contents/approach_1.tex:37: Misplaced alignment tab character &.
-l.37 ...signed long long val = strtoull(argv[1], &
+./contents/approach_1.tex:38: Misplaced alignment tab character &.
+l.38 ...signed long long val = strtoull(argv[1], &
                                                   endptr, 10);
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1094,8 +1108,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./contents/approach_1.tex:38: Undefined control sequence.
-l.38         if (endptr == NULL || *endptr != '\0
+./contents/approach_1.tex:39: Undefined control sequence.
+l.39         if (endptr == NULL || *endptr != '\0
                                                  ' || val == 0) {
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1103,37 +1117,37 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./contents/approach_1.tex:46: Missing $ inserted.
+./contents/approach_1.tex:47: Missing $ inserted.
 <inserted text> 
                 $
-l.46 ...gned int seed = (unsigned int)time(NULL) ^
+l.47 ...gned int seed = (unsigned int)time(NULL) ^
                                                    (unsigned int)(36 * 0x9e3...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./contents/approach_1.tex:49: Missing $ inserted.
+./contents/approach_1.tex:50: Missing $ inserted.
 <inserted text> 
                 $
-l.49 
+l.50 
      
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (48.47116pt too wide) in paragraph at lines 31--49
+Overfull \hbox (48.47116pt too wide) in paragraph at lines 32--50
 \T5/ptm/m/n/12 int)time(NULL) $[]\OML/ztmcm/m/it/12 unsignedint\OT1/ztmcm/m/n/12 )(36 \OMS/ztmcm/m/n/12 ^^C \OT1/ztmcm/m/n/12 0\OML/ztmcm/m/it/12 x\OT1/ztmcm/m/n/12 9\OML/ztmcm/m/it/12 e\OT1/ztmcm/m/n/12 3779\OML/ztmcm/m/it/12 b\OT1/ztmcm/m/n/12 9); \OML/ztmcm/m/it/12 srand\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 seed\OT1/ztmcm/m/n/12 ); \OML/ztmcm/m/it/12 fill[]ackground\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 img; W; H; \OT1/ztmcm/m/n/12 255\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 255\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 255);$ 
  []
 
-./contents/approach_1.tex:51: Missing $ inserted.
+./contents/approach_1.tex:52: Missing $ inserted.
 <inserted text> 
                 $
-l.51     clock_
+l.52     clock_
                gettime(CLOCK_MONOTONIC, &t0);
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./contents/approach_1.tex:51: Misplaced alignment tab character &.
-l.51     clock_gettime(CLOCK_MONOTONIC, &
+./contents/approach_1.tex:52: Misplaced alignment tab character &.
+l.52     clock_gettime(CLOCK_MONOTONIC, &
                                          t0);
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1142,24 +1156,24 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./contents/approach_1.tex:52: Missing $ inserted.
+./contents/approach_1.tex:53: Missing $ inserted.
 <inserted text> 
                 $
-l.52 
+l.53 
      
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./contents/approach_1.tex:53: Missing $ inserted.
+./contents/approach_1.tex:54: Missing $ inserted.
 <inserted text> 
                 $
-l.53     unsigned long long inside = count_
+l.54     unsigned long long inside = count_
                                            point_inside(npoints,img);
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./contents/approach_1.tex:54: Misplaced alignment tab character &.
-l.54     clock_gettime(CLOCK_MONOTONIC, &
+./contents/approach_1.tex:55: Misplaced alignment tab character &.
+l.55     clock_gettime(CLOCK_MONOTONIC, &
                                          t1); // Láº¥y thá»i gian káº¿t thÃºc
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1169,19 +1183,19 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 54.
+LaTeX Warning: Command \' invalid in math mode on input line 55.
 
 
-LaTeX Warning: Command \` invalid in math mode on input line 54.
+LaTeX Warning: Command \` invalid in math mode on input line 55.
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 54.
+LaTeX Warning: Command \' invalid in math mode on input line 55.
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 54.
+LaTeX Warning: Command \' invalid in math mode on input line 55.
 
-./contents/approach_1.tex:60: Undefined control sequence.
-l.60     fprintf(f, "P6\n
+./contents/approach_1.tex:61: Undefined control sequence.
+l.61     fprintf(f, "P6\n
                          %d %d\n255\n", W, H);
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1189,8 +1203,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./contents/approach_1.tex:67: Extra }, or forgotten $.
-l.67 }
+./contents/approach_1.tex:68: Extra }, or forgotten $.
+l.68 }
       
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -1198,8 +1212,8 @@ you forgot something else, as in `\hbox{$x}'. In such cases
 the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
-./contents/approach_1.tex:76: Misplaced alignment tab character &.
-l.76         if (px >= 0 &
+./contents/approach_1.tex:77: Misplaced alignment tab character &.
+l.77         if (px >= 0 &
                           & px < W && py >= 0 && py < H) {
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1208,8 +1222,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./contents/approach_1.tex:76: Misplaced alignment tab character &.
-l.76         if (px >= 0 &&
+./contents/approach_1.tex:77: Misplaced alignment tab character &.
+l.77         if (px >= 0 &&
                             px < W && py >= 0 && py < H) {
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1218,8 +1232,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./contents/approach_1.tex:76: Misplaced alignment tab character &.
-l.76         if (px >= 0 && px < W &
+./contents/approach_1.tex:77: Misplaced alignment tab character &.
+l.77         if (px >= 0 && px < W &
                                     & py >= 0 && py < H) {
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1228,8 +1242,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./contents/approach_1.tex:76: Misplaced alignment tab character &.
-l.76         if (px >= 0 && px < W &&
+./contents/approach_1.tex:77: Misplaced alignment tab character &.
+l.77         if (px >= 0 && px < W &&
                                       py >= 0 && py < H) {
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1238,8 +1252,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./contents/approach_1.tex:76: Misplaced alignment tab character &.
-l.76         if (px >= 0 && px < W && py >= 0 &
+./contents/approach_1.tex:77: Misplaced alignment tab character &.
+l.77         if (px >= 0 && px < W && py >= 0 &
                                                & py < H) {
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1248,8 +1262,8 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./contents/approach_1.tex:76: Misplaced alignment tab character &.
-l.76         if (px >= 0 && px < W && py >= 0 &&
+./contents/approach_1.tex:77: Misplaced alignment tab character &.
+l.77         if (px >= 0 && px < W && py >= 0 &&
                                                  py < H) {
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -1259,22 +1273,22 @@ you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
 
-./contents/approach_1.tex:86: LaTeX Error: \begin{document} ended by \end{lstlisting}.
+./contents/approach_1.tex:87: LaTeX Error: \begin{document} ended by \end{lstlisting}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.86     \end{lstlisting}
+l.87     \end{lstlisting}
                          
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-./contents/approach_1.tex:86: Missing $ inserted.
+./contents/approach_1.tex:87: Missing $ inserted.
 <inserted text> 
                 $
-l.86     \end{lstlisting}
+l.87     \end{lstlisting}
                          
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1286,10 +1300,10 @@ Missing character: There is no § in font zptmcm7t!
 Missing character: There is no í in font zptmcm7t!
 Missing character: There is no ¸ in font zptmcm7t!
 Missing character: There is no ó in font zptmcm7t!
-./contents/approach_1.tex:86: Missing } inserted.
+./contents/approach_1.tex:87: Missing } inserted.
 <inserted text> 
                 }
-l.86     \end{lstlisting}
+l.87     \end{lstlisting}
                          
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1298,40 +1312,40 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-./contents/approach_1.tex:87: LaTeX Error: \begin{document} ended by \end{tcolorbox}.
+./contents/approach_1.tex:88: LaTeX Error: \begin{document} ended by \end{tcolorbox}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.87 \end{tcolorbox}
+l.88 \end{tcolorbox}
                     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 )
-Overfull \hbox (211.3559pt too wide) in paragraph at lines 53--25
+Overfull \hbox (211.3559pt too wide) in paragraph at lines 54--25
 []\T5/ptm/m/n/12 unsigned long long inside = count$[]\OML/ztmcm/m/it/12 oint[]nside\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 npoints; img\OT1/ztmcm/m/n/12 ); \OML/ztmcm/m/it/12 clock[]ettime\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 CLOCK[]ONOTONIC; t\OT1/ztmcm/m/n/12 1); \OML/ztmcm/m/it/12 ==Lythigianktthcdoubleelapsed[]ec \OT1/ztmcm/m/n/12 =
  []
 
 
-Overfull \hbox (447.62836pt too wide) in paragraph at lines 53--25
+Overfull \hbox (447.62836pt too wide) in paragraph at lines 54--25
 \OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 t\OT1/ztmcm/m/n/12 1\OML/ztmcm/m/it/12 :tv[]ec \OMS/ztmcm/m/n/12 ^^@ \OML/ztmcm/m/it/12 t\OT1/ztmcm/m/n/12 0\OML/ztmcm/m/it/12 :tv[]ec\OT1/ztmcm/m/n/12 ) + (\OML/ztmcm/m/it/12 t\OT1/ztmcm/m/n/12 1\OML/ztmcm/m/it/12 :tv[]sec \OMS/ztmcm/m/n/12 ^^@ \OML/ztmcm/m/it/12 t\OT1/ztmcm/m/n/12 0\OML/ztmcm/m/it/12 :tv[]sec\OT1/ztmcm/m/n/12 )\OML/ztmcm/m/it/12 =\OT1/ztmcm/m/n/12 1\OML/ztmcm/m/it/12 e\OT1/ztmcm/m/n/12 9; \OML/ztmcm/m/it/12 printf\OT1/ztmcm/m/n/12 ("\OML/ztmcm/m/it/12 Elapsed \OT1/ztmcm/m/n/12 : \OML/ztmcm/m/it/12 FILE \OMS/ztmcm/m/n/12 ^^C \OML/ztmcm/m/it/12 f \OT1/ztmcm/m/n/12 = \OML/ztmcm/m/it/12 fopen\OT1/ztmcm/m/n/12 ("\OML/ztmcm/m/it/12 points:ppm\OT1/ztmcm/m/n/12 "\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 "\OML/ztmcm/m/it/12 wb\OT1/ztmcm/m/n/12 "); \OML/ztmcm/m/it/12 if\OT1/ztmcm/m/n/12 (!\OML/ztmcm/m/it/12 f\OT1/ztmcm/m/n/12 )[]\OML/ztmcm/m/it/12 fprintf\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 f; \OT1/ztmcm/m/n/12 "\OML/ztmcm/m/it/12 P\OT1/ztmcm/m/n/12 6\OML/ztmcm/m/it/12 fwrite\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 img; \OT1/ztmcm/m/n/12 1\OML/ztmcm/m/it/12 ; W \OMS/ztmcm/m/n/12 ^^C
  []
 
 
-Overfull \hbox (17.57034pt too wide) in paragraph at lines 53--25
+Overfull \hbox (17.57034pt too wide) in paragraph at lines 54--25
 \OML/ztmcm/m/it/12 H \OMS/ztmcm/m/n/12 ^^C \OT1/ztmcm/m/n/12 3\OML/ztmcm/m/it/12 ; f\OT1/ztmcm/m/n/12 ); \OML/ztmcm/m/it/12 fclose\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 f\OT1/ztmcm/m/n/12 ); \OML/ztmcm/m/it/12 free\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 img\OT1/ztmcm/m/n/12 ); \OML/ztmcm/m/it/12 doublepi \OT1/ztmcm/m/n/12 = 4\OML/ztmcm/m/it/12 :\OT1/ztmcm/m/n/12 0 \OMS/ztmcm/m/n/12 ^^C \OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 double\OT1/ztmcm/m/n/12 )\OML/ztmcm/m/it/12 inside=\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 double\OT1/ztmcm/m/n/12 )\OML/ztmcm/m/it/12 npoints\OT1/ztmcm/m/n/12 ; \OML/ztmcm/m/it/12 printf\OT1/ztmcm/m/n/12 ("\OML/ztmcm/m/it/12 Points \OT1/ztmcm/m/n/12 :
  []
 
 
-Overfull \hbox (2708.29312pt too wide) in paragraph at lines 53--25
+Overfull \hbox (2708.29312pt too wide) in paragraph at lines 54--25
 \OML/ztmcm/m/it/12 return\OT1/ztmcm/m/n/12 0; \OML/ztmcm/m/it/12 unsignedlonglongintcount[]oint[]nside\OT1/ztmcm/m/n/12 (\OML/ztmcm/m/it/12 unsignedlonglongintnpoints; unsignedchar \OMS/ztmcm/m/n/12 ^^C \OML/ztmcm/m/it/12 img\OT1/ztmcm/m/n/12 )[]$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 53--25
+Underfull \hbox (badness 10000) in paragraph at lines 54--25
 
  []
 
@@ -1368,15 +1382,15 @@ Package rerunfilecheck Info: Checksums for `main.out':
 (rerunfilecheck)             After:  BC7ACB783FC1955F39AAA62096B207C2;230.
  ) 
 Here is how much of TeX's memory you used:
- 26425 strings out of 467816
- 485165 string characters out of 5436431
- 897331 words of memory out of 5000000
- 54568 multiletter control sequences out of 15000+600000
+ 26422 strings out of 467816
+ 485114 string characters out of 5436431
+ 897340 words of memory out of 5000000
+ 54567 multiletter control sequences out of 15000+600000
  666505 words of font info for 111 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  125i,23n,121p,483b,597s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/urwvn/utmr8v.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/vntex/vnr/vntt12.pfb>
-Output written on output/main.pdf (4 pages, 161860 bytes).
+Output written on output/main.pdf (4 pages, 161839 bytes).
 PDF statistics:
  77 PDF objects out of 1000 (max. 8388607)
  52 compressed objects within 1 object stream

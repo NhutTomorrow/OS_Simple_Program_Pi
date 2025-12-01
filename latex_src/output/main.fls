@@ -284,9 +284,6 @@ INPUT c:/texlive/2025/texmf-dist/tex/latex/vntex/t5ptm.fd
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/vntex/urwvn/utmr8v.tfm
 INPUT c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-INPUT output/main.aux
-INPUT output/main.aux
-INPUT output/main.aux
 OUTPUT output/main.aux
 INPUT c:/texlive/2025/texmf-dist/tex/latex/graphics/color.sty
 OUTPUT output/main.out
