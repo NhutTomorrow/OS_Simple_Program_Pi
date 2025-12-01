@@ -1,0 +1,8 @@
+\babel@toc {vietnamese}{}\relax 
+\contentsline {section}{\numberline {1}Approach 1: A Single-Thread program}{4}{section.1}%
+\contentsline {section}{\numberline {2}Approach 3: Shares Variables}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Mục tiêu}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Thuật toán}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Tránh race condition bằng mutex}{6}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Đề xuất giải pháp}{6}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}Điều chỉnh cơ chế sinh số ngẫu nhiên để tăng độ chính xác}{7}{subsubsection.2.4.1}%

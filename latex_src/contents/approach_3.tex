@@ -1,0 +1,84 @@
+\section{Approach 3: Shares Variables}
+\subsection{Mục tiêu}
+Ở 2 cách trước là \textbf{Approach 1: Separate Variables} và \textbf{Approach 2: Shared Variables}, chúng ta đã tìm hiểu về cách sử dụng các biến riêng biệt và chia sẻ biến trong các mô hình học máy. Trong phần này, chúng ta sẽ khám phá cách tiếp cận thứ ba, đó là \textbf{Shares Variables} đều sử dụng biến cục bộ để đếm số điểm rơi vào hình tròn rồi cộng dồn vào tổng khi kết thúc.
+
+Trong cách 3 yêu cầu:
+\begin{itemize}
+    \item Sử dụng biến toàn cục để lưu trữ số điểm rơi vào hình tròn
+    \item Các luồng (thread) \textbf{cập nhật trực tiếp} biến toàn cục này mỗi khi luồng thực thi kết thúc.
+    \item Sử dụng cơ chế \textbf{mutex locks} để tránh tình trạng \textbf{Race Condition} khi nhiều luồng cùng truy cập và cập nhật biến toàn cục.
+\end{itemize}
+
+\subsection{Thuật toán}
+
+
+Trong phiên bản đa luồng với biến chia sẻ:
+\begin{itemize}
+    \item Chương trình tạo \verb|nThreads| luồng.
+    \item Mỗi luồng được gán một đoạn chỉ số điểm $[start\_idx, end\_idx)$ không trùng nhau:
+   \begin{itemize}
+    \item 
+    \[
+        \texttt{start\_idx} = \texttt{thread\_id} \cdot \frac{\texttt{nPoints}}{\texttt{nThreads}}
+    \]
+    
+    \item 
+    \[
+        \texttt{end\_idx} =
+        \begin{cases}
+            \texttt{start\_idx} + \frac{\texttt{nPoints}}{\texttt{nThreads}} & \text{nếu không phải luồng cuối}, \\[6pt]
+            \texttt{nPoints} & \text{nếu là luồng cuối}.
+        \end{cases}
+    \]
+\end{itemize}
+    
+    
+    \item Mỗi điểm được sinh dựa trên một seed phụ thuộc vào chỉ số toàn cục:
+    \[
+        \texttt{seed} = \texttt{base\_seed} + i
+    \]
+   \item Sử dụng mutex locks để tránh race condition khi cập nhật biến toàn cục.
+\end{itemize}
+
+\subsection{Tránh race condition bằng mutex}
+
+Do \verb|global_count| là biến chia sẻ, nếu nhiều luồng cùng thực hiện:
+\begin{verbatim}
+global_count++;
+\end{verbatim}
+mà không có cơ chế đồng bộ, chương trình sẽ gặp \textit{race condition}: các luồng đọc cùng một giá trị cũ, cùng tăng rồi ghi đè lẫn nhau, khiến giá trị cuối cùng của \verb|global_count| bị thiếu hoặc sai. Điều này dẫn tới kết quả xấp xỉ $\pi$ bị sai lệch.
+
+Để tránh hiện tượng đó, mỗi lần cập nhật \verb|global_count| phải được bảo vệ bởi mutex:
+\begin{verbatim}
+pthread_mutex_lock(&lock);
+global_count++;
+pthread_mutex_unlock(&lock);
+\end{verbatim}
+Như vậy, tại mọi thời điểm chỉ có một luồng được phép vào vùng cập nhật, đảm bảo kết quả cuối cùng là đúng.
+
+\subsection{Đề xuất giải pháp}
+
+Một nhược điểm của cách tiếp cận 3 là:
+\begin{itemize}
+    \item Mỗi lần có điểm rời vào hình tròn, luồng phải thực hiện thao tác lock and unlock mutex
+    \item Với số điểm lớn lên đến \(10^{7}, 10^{8}, 10^{9}\) và nhiều luồng =, thì việc lock/ unlock rất lớn dẫn đến overhead nặng nề
+\end{itemize}
+
+Để \textbf{giảm overhead} mà vẫn giữ ý tưởng sử dụng biến chia sẻ \verb|global_count|, có thể đề xuất giải pháp:
+\begin{itemize}
+    \item Mỗi luồng sử dụng một biến đếm cục bộ \verb|local_count|.
+    \item Trong vòng lặp, luồng chỉ tăng \verb|local_count| (không lock mutex liên tục).
+    \item Sau khi hoàn thành tất cả các điểm được gán, luồng mới:
+    \begin{verbatim}
+pthread_mutex_lock(&lock);
+global_count += local_count;
+pthread_mutex_unlock(&lock);
+    \end{verbatim}
+    \item Như vậy, mỗi luồng chỉ lock/unlock \textbf{một lần} thay vì hàng triệu lần, giảm đáng kể chi phí đồng bộ.
+\end{itemize}
+
+Cách làm này vẫn giữ đúng yêu cầu “dùng biến chia sẻ \verb|global_count|”, đồng thời:
+\begin{itemize}
+    \item Tránh race condition nhờ mutex.
+    \item Giảm overhead đồng bộ, giúp Cách 3 tiến gần hơn về hiệu năng so với Cách 2.
+\end{itemize}
