@@ -1,8 +1,8 @@
-PWD c:/Users/DELL/Documents/.HCMUT_HK251/03.He_dieu_hanh_HDH_OS_CO2017/He_dieu_hanh_Labs_HDH_Labs_OS_Labs_CO2018/lab-3/OS_Simple_Program_Pi/approach_2/Sample_Report
+PWD c:/Users/DELL/Documents/.HCMUT_HK251/03.He_dieu_hanh_HDH_OS_CO2017/He_dieu_hanh_Labs_HDH_Labs_OS_Labs_CO2018/lab-3/OS_Simple_Program_Pi/latex_src
 INPUT c:/texlive/2025/texmf.cnf
 INPUT c:/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT c:/Users/DELL/Documents/.HCMUT_HK251/03.He_dieu_hanh_HDH_OS_CO2017/He_dieu_hanh_Labs_HDH_Labs_OS_Labs_CO2018/lab-3/OS_Simple_Program_Pi/approach_2/Sample_Report/main.tex
+INPUT c:/Users/DELL/Documents/.HCMUT_HK251/03.He_dieu_hanh_HDH_OS_CO2017/He_dieu_hanh_Labs_HDH_Labs_OS_Labs_CO2018/lab-3/OS_Simple_Program_Pi/latex_src/main.tex
 OUTPUT build/main.log
 INPUT ./hcmut_report.cls
 INPUT hcmut_report.cls
