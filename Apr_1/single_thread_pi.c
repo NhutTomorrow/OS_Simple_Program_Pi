@@ -2,11 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
-// Hàm main chuẩn: tính gần đúng Pi bằng Monte Carlo.
-// Cách dùng: ./single_thread_pi [NUMBER_OF_POINTS]
-// Nếu không truyền tham số: mặc định 10,000,000 điểm.
-
-
 const int W = 800, H = 800;
 
 double rand_double(unsigned int *seed, double a, double b) {
@@ -45,7 +40,8 @@ int main(int argc, char *argv[]) {
     }
     unsigned char *img = (unsigned char *)calloc(W * H * 3, 1);
     if (!img) { perror("calloc"); return 1; }
-    srand(76480680);
+    unsigned int seed = (unsigned int)time(NULL) ^ (unsigned int)(36 * 0x9e3779b9);
+    srand(seed);
     fill_background(img, W, H, 255, 255, 255);
     
     struct timespec t0, t1;
